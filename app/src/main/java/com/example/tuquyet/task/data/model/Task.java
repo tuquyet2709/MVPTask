@@ -6,6 +6,15 @@ package com.example.tuquyet.task.data.model;
 public class Task {
     private int mId;
     private String mTitle;
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public Task(int id) {
         mId = id;

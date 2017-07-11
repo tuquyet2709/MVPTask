@@ -9,6 +9,9 @@ import java.util.List;
  */
 public interface MainContract {
     interface View {
+        void onDeleteTaskClick(Task task);
+        void onAddTaskClick(String title);
+        void onEditTaskClick(String title);
         void onAddTaskSuccess(Task task);
         void onAddTaskFailed(String msg);
         void onEditSuccess();

@@ -9,7 +9,7 @@ import com.example.tuquyet.task.data.source.TaskDataSource;
 public class TaskLocalDataSource implements TaskDataSource {
     @Override
     public void addTask(Task task, CallBack<Boolean> callBack) {
-    //add task
+        //add task
         callBack.onSucess(true);
     }
 
@@ -18,7 +18,7 @@ public class TaskLocalDataSource implements TaskDataSource {
     }
 
     @Override
-    public void deleteTask(Task task, CallBack<Boolean> callBack) {
+    public void deleteTask(int id, CallBack<Boolean> callBack) {
     }
 
     @Override
