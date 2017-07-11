@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="@dimen/dp_5"
+              android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_20"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_weight="10"
+        android:text="TextView"
+        tools:text="dd"/>
+
+    <ImageView
+        android:id="@+id/imageView_edit"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="20dp"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_weight="0.5"
+        app:srcCompat="@drawable/pen"/>
+
+    <ImageView
+        android:id="@+id/imageView_delete"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="20dp"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_weight="0.5"
+        app:srcCompat="@drawable/delete"/>
+
+</LinearLayout>
