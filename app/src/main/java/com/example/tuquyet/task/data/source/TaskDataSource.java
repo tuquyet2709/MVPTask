@@ -1,20 +1,24 @@
 package com.example.tuquyet.task.data.source;
 
-import android.telecom.Call;
-
 import com.example.tuquyet.task.data.model.Task;
+
+import java.util.List;
 
 /**
  * Created by tuquyet on 07/07/2017.
  */
 public interface TaskDataSource {
-    void addTask(Task task, CallBack<Boolean> callBack );
-    void editTask(Task task, CallBack<Boolean> callBack );
-    void deleteTask(int id, CallBack<Boolean> callBack );
-    void getTask(int id, CallBack<Task> callBack);
+    void addTask(Task task, CallBack<Boolean> callBack);
+    void editTask(Task task, CallBack<Boolean> callBack);
+    void deleteTask(Task task, CallBack<Boolean> callBack);
+    void getAllTask(CallBacks<Task> callBack);
+    interface CallBack<T> {
+        void onSuccess(T data);
+        void onFailed(String msg);
+    }
 
-    interface CallBack<T>{
-        void onSucess(T data);
+    interface CallBacks<T> {
+        void onSuccess(List<T> data);
         void onFailed(String msg);
     }
 }

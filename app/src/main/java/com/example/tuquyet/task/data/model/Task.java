@@ -16,6 +16,12 @@ public class Task {
         isChecked = checked;
     }
 
+    public Task(int id, String title, boolean isChecked) {
+        mId = id;
+        mTitle = title;
+        this.isChecked = isChecked;
+    }
+
     public Task(int id) {
         mId = id;
     }
