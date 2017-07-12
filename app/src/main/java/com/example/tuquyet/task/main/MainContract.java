@@ -11,21 +11,21 @@ public interface MainContract {
     interface View {
         void onDeleteTaskClick(Task task);
         void onAddTaskClick(String title);
-        void onEditTaskClick(String title);
+        void onEditTaskClick(Task t);
         void onAddTaskSuccess(Task task);
         void onAddTaskFailed(String msg);
-        void onEditSuccess();
-        void onEditFailed();
-        void onDeleteSuccess();
-        void onDeleteFailed();
-        void onGetSuccess();
-        void onGetFailed();
+        void onEditSuccess(Task task);
+        void onEditFailed(String msg);
+        void onDeleteSuccess(Task task);
+        void onDeleteFailed(String msg);
+        void onGetSuccess(List<Task> list);
+        void onGetFailed(String msg);
     }
 
     interface Presenter {
-        void addTask(List<Task> taskList, String taskName);
-        void editTask();
-        void deleteTask(List<Task> taskList, String taskName);
-        void getTask(int id);
+        void addTask(Task task);
+        void editTask(Task task);
+        void deleteTask(Task task);
+        void getAllTask();
     }
 }

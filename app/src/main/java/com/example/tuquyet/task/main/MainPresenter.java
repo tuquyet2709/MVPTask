@@ -19,12 +19,10 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void addTask(final List<Task> taskList, final String taskName) {
-        final Task task = new Task(taskName);
+    public void addTask(final Task task) {
         mTaskRepository.addTask(task, new TaskDataSource.CallBack<Boolean>() {
             @Override
-            public void onSucess(Boolean data) {
-                taskList.add(task);
+            public void onSuccess(Boolean data) {
                 mView.onAddTaskSuccess(task);
             }
 
@@ -33,18 +31,51 @@ public class MainPresenter implements MainContract.Presenter {
                 mView.onAddTaskFailed(msg);
             }
         });
-
     }
 
     @Override
-    public void editTask() {
+    public void editTask(final Task task) {
+        mTaskRepository.editTask(task, new TaskDataSource.CallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean data) {
+                mView.onEditSuccess(task);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                mView.onEditFailed(msg);
+            }
+        });
     }
 
     @Override
-    public void deleteTask(List<Task> taskList, String taskName) {
+    public void deleteTask(final Task task) {
+        mTaskRepository.deleteTask(task, new TaskDataSource.CallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean data) {
+                mView.onDeleteSuccess(task);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                mView.onDeleteFailed(msg);
+            }
+        });
     }
 
+
     @Override
-    public void getTask(int id) {
+    public void getAllTask() {
+        mTaskRepository.getAllTask(new TaskDataSource.CallBacks<Task>() {
+            @Override
+            public void onSuccess(List<Task> data) {
+                mView.onGetSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                mView.onGetFailed(msg);
+            }
+        });
     }
 }

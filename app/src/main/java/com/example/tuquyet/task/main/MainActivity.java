@@ -6,9 +6,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.tuquyet.task.R;
 import com.example.tuquyet.task.data.model.Task;
@@ -29,19 +31,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPresenter = new MainPresenter(this, new TaskRepository(new TaskLocalDataSource()));
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(
             new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mListTasks = new ArrayList<>();
-        Task task = new Task("111");
-        mListTasks.add(task);
-        mListTasks.add(task);
-        mListTasks.add(task);
-        mListTasks.add(task);
-        mListTasks.add(task);
         mMainAdapter = new MainAdapter(mListTasks, this);
         mRecyclerView.setAdapter(mMainAdapter);
+        mPresenter = new MainPresenter(this, new TaskRepository(new TaskLocalDataSource(this)));
     }
 
     @Override
@@ -59,12 +55,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void onDeleteTaskClick(Task task) {
+    public void onDeleteTaskClick(final Task task) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Delete ?")
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
+                    mPresenter.deleteTask(task);
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 public void onClick(DialogInterface dialog, int which) {
                     String title = text.getText().toString();
                     Task task = new Task(title);
-                    mPresenter.addTask(mListTasks, title);
+                    mPresenter.addTask(task);
                 }
             })
             .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -99,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void onEditTaskClick(String title) {
+    public void onEditTaskClick(final Task task) {
         final EditText text = new EditText(this);
         text.setHint("Title");
         new AlertDialog.Builder(this).setTitle("Edit task")
@@ -108,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String title = text.getText().toString();
-                    Task task = new Task(title);
-                  //  mPresenter.addTask(mListTasks, title);
+                    task.setTitle(title);
+                    mPresenter.editTask(task);
                 }
             })
             .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -122,33 +118,48 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onAddTaskSuccess(Task task) {
+        mListTasks.add(task);
+        mMainAdapter.notifyItemInserted(mListTasks.size());
     }
 
     @Override
     public void onAddTaskFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onEditSuccess() {
+    public void onEditSuccess(Task task) {
+        int index = mListTasks.indexOf(task);
+        mListTasks.set(index, task);
+        mMainAdapter.notifyItemChanged(index);
     }
 
     @Override
-    public void onEditFailed() {
+    public void onEditFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onDeleteSuccess() {
+    public void onDeleteSuccess(Task task) {
+        int index = mListTasks.indexOf(task);
+        mListTasks.remove(index);
+        mMainAdapter.notifyItemRemoved(index);
     }
 
     @Override
-    public void onDeleteFailed() {
+    public void onDeleteFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onGetSuccess() {
+    public void onGetSuccess(List<Task> list) {
+        mListTasks.clear();
+        mListTasks.addAll(list);
+        mMainAdapter.notifyItemInserted(mListTasks.size());
     }
 
     @Override
-    public void onGetFailed() {
+    public void onGetFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
